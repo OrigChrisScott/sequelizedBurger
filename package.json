@@ -28,6 +28,8 @@
     "inquirer": "^3.2.1",
     "method-override": "^2.3.9",
     "mysql": "^2.13.0",
-    "opn": "^5.1.0"
+    "mysql2": "^1.4.0",
+    "opn": "^5.1.0",
+    "sequelize": "^4.4.2"
   }
 }

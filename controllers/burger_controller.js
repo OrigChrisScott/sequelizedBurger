@@ -1,6 +1,4 @@
-// Router file to route server connections
-
-// Require express module for router creation.
+ // Require express module for router creation.
 var express = require("express");
 var router = express.Router();
 
@@ -9,28 +7,28 @@ var burger = require('../models/burger.js');
 
 
 router.get('/', function(req, res) {
-  burger.all(['id', 'burger_name', 'devoured'], function(data) {
-    // Set object for handlebars to render.
-    var hbsObject = {
-      burgers: data
-    };
+  burger.findAll().then(function(data) {
     // Render object in handlebars.
-    res.render('index', hbsObject);
+    res.render('index', {burgers: data});
   });
 });
 
 router.post("/", function(req, res) {
-  burger.create(['burger_name'], [req.body.burger_name], function() {
+  burger.create({
+    burger_name: req.body.burger_name  
+  }).then(function() {
     // Reload home page.
     res.send({redirect: "/"});
   });
 });
 
 router.put("/:id", function(req, res) {
-	burger.update('id', req.params.id, 'devoured', req.body.devoured, function() {
-		// Reload home page.
-		res.redirect('/');
-	});
+  let values = { devoured: true };
+  let selectors = { where: { id: req.params.id } };
+  burger.update(values, selectors).then(function() {
+    // Reload home page.
+    res.redirect('/');
+  });
 });
 
 
